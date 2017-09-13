@@ -1,0 +1,7 @@
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\bin\Debug\ConnectFour.exe.config
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\bin\Debug\ConnectFour.exe
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\bin\Debug\ConnectFour.pdb
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.csprojResolveAssemblyReference.cache
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.csproj.CoreCompileInputs.cache
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.exe
+c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.pdb
