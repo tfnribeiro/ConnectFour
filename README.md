@@ -7,7 +7,7 @@ Decided to make this into C# to recall the concepts learned.
 
 This contains the code for the AI. 
 
-The main method is **CalculateNextMove** which will return the move with the highest utility after exploring the tree and applying Alpha-Beta Prunning. This is done by calling the methods **MinValue** / **MaxValue** alternatively to explore the tree. The depth can be specified when creating the class. Over 9/10 depth the algorithm starts to slow down substancially. The order of search is done by calling **GetOrderedMoves**, and these are ordered based on the heuristic of that state. 
+The main method is **CalculateNextMove** which will return the move with the highest utility after exploring the tree and applying Alpha-Beta Prunning. This is done by calling the methods **MinValue** / **MaxValue** alternatively to explore the tree. The depth can be specified when creating the class. Over 9/10 depth the algorithm starts to slow down substantially. The order of search is done by calling **GetOrderedMoves**, and these are ordered based on the heuristic of that state. 
 
 The Depth in this case decrements as you go furthest away in the tree. If Depth = 8, 8 will be the shallowest node and 0 will be the deepest node.
 
