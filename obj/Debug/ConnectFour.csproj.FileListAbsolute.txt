@@ -5,3 +5,10 @@ c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.csproj
 c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.csproj.CoreCompileInputs.cache
 c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.exe
 c:\users\tyagu\source\repos\ConnectFour\ConnectFour\obj\Debug\ConnectFour.pdb
+F:\GitHub\ConnectFour\bin\Debug\ConnectFour.exe.config
+F:\GitHub\ConnectFour\bin\Debug\ConnectFour.exe
+F:\GitHub\ConnectFour\bin\Debug\ConnectFour.pdb
+F:\GitHub\ConnectFour\obj\Debug\ConnectFour.csprojAssemblyReference.cache
+F:\GitHub\ConnectFour\obj\Debug\ConnectFour.csproj.CoreCompileInputs.cache
+F:\GitHub\ConnectFour\obj\Debug\ConnectFour.exe
+F:\GitHub\ConnectFour\obj\Debug\ConnectFour.pdb

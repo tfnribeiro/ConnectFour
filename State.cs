@@ -8,6 +8,8 @@ namespace ConnectFour
 {
     public class State
     {
+        private int[,] zobristTable;
+        public static int HASH_INIT = 8096;
         public static int STATES_CREATED; //Number of total states generated.
         // winCdt - Number of tokens to be in line (Default 4)
         private int winCdt = 4;
@@ -32,6 +34,75 @@ namespace ConnectFour
         public int[,] GetBoard() { return this.board; }
         public int GetToken(int row, int col) { return board[row, col]; }
 
+        private void init_zobrist()
+        {
+            zobristTable = new int[rows * cols, 2];
+            var rand = new System.Random();
+            for (int r = 0; r < rows * cols; r++)
+            {
+                for (int p = 0; p < 2; p++)
+                {
+                    zobristTable[r, p] = rand.Next(HASH_INIT);
+                }
+            }
+
+        }
+        public override int GetHashCode()
+        {
+            int h = 0;
+            try
+            {
+
+                for (int r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        if (board[r, c] != 0)
+                        {
+                            int piece = board[r, c] - 1;
+                            h = h ^ zobristTable[rows * r + c, piece];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return h;
+        }
+        public string PrintBoard()
+        {
+            string boardString = String.Empty;
+            for(int c = 0; c < cols; c++)
+            {
+                boardString += $" |{c+1}|";
+            }
+            boardString += "\n\n";
+            for (int r = rows - 1; r >= 0; r--)
+            {
+                for(int c = 0; c < cols; c++)
+                {
+                    string symbol = string.Empty;
+                    switch(board[r, c])
+                    {
+                        case 1:
+                            symbol = "X";
+                            break;
+                        case 2:
+                            symbol = "O";
+                            break;
+                        default:
+                            symbol = "_";
+                            break;
+                    }
+                    boardString += $" |{symbol}|";
+                }
+                boardString += "\n";
+            }
+            return boardString;
+        }
 
         public State(int rows, int cols, int playerID)
         {
@@ -41,6 +112,7 @@ namespace ConnectFour
             this.cols = cols;
             this.turn = playerID;
             STATES_CREATED = 0;
+            init_zobrist();
         }
         public State(State oldState)
         {
@@ -53,7 +125,7 @@ namespace ConnectFour
         }
         public void ChangeTurn()
         {
-            if(turn == 1) { turn = 2; }
+            if (turn == 1) { turn = 2; }
             else { turn = 1; }
         }
         public Boolean InsertCoin(int col, int playerID)
@@ -61,10 +133,10 @@ namespace ConnectFour
             //Finds the first available row in the col if possible, returning true
             //If can't place a token it will return false.
             Boolean validMove = false;
-            for(int r = 0; r < this.rows; r++)
+            for (int r = 0; r < this.rows; r++)
             {
                 if (col < 0) continue;
-                if(board[r, col] == 0)
+                if (board[r, col] == 0)
                 {
                     validMove = true;
                     board[r, col] = playerID;
@@ -78,7 +150,7 @@ namespace ConnectFour
         {
             /* Tests all conditions and returns the winner if there
              * is one.
-             */ 
+             */
             winner = CheckWinCol();
             if (winner != -1) return winner;
             winner = CheckWinRow();
@@ -95,7 +167,7 @@ namespace ConnectFour
         {
             //To check if board is full we need only to see the last row
             //If there is space, then it's not full;
-            for(int i = 0; i < cols; i++)
+            for (int i = 0; i < cols; i++)
             {
                 if (board[rows - 1, i] == 0) return false;
             }
@@ -137,7 +209,7 @@ namespace ConnectFour
             }
             return -1;
         }
-        
+
         private int CheckWinRow()
         {
             for (int r = 0; r < rows; r++)
@@ -145,12 +217,12 @@ namespace ConnectFour
                 //Variables are reset every time we will check a new row/col/dig
                 current = 0; //Current Player checking for win condition
                 count = 0; //Number of tokens in a row
-                for(int c = 0; c < cols; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     //Checks if it is still possible to win in the row
-                    if(winCdt - count > cols - c) { continue; }
+                    if (winCdt - count > cols - c) { continue; }
                     int check = CountCoin(board, r, c, winCdt);
-                    if(check != -1)
+                    if (check != -1)
                     {
                         return check;
                     }
@@ -163,8 +235,8 @@ namespace ConnectFour
             //Same idea as rows, but instead we iterate through the rows.
             for (int c = 0; c < cols; c++)
             {
-                current = 0; 
-                count = 0; 
+                current = 0;
+                count = 0;
                 for (int r = 0; r < rows; r++)
                 {
                     if (winCdt - count > rows - r) { continue; }
@@ -183,13 +255,13 @@ namespace ConnectFour
             //where it will be possible to find a win in the diagonal
             //This will check the diagonals where the starting column is 0
             //and goes to the right.
-            for(int r = rows - winCdt; r >= 0; r--)
+            for (int r = rows - winCdt; r >= 0; r--)
             {
                 int c = 0;
                 int tempR = r;
                 count = 0;
                 current = 0;
-                while(c < cols && tempR < rows)
+                while (c < cols && tempR < rows)
                 {
                     int check = CountCoin(board, tempR, c, winCdt);
                     if (check != -1)
@@ -200,13 +272,13 @@ namespace ConnectFour
                     tempR++;
                 }
             }
-            for(int c = 1; c <= cols - winCdt; c++)
+            for (int c = 1; c <= cols - winCdt; c++)
             {
                 int r = 0;
                 int tempC = c;
                 count = 0;
                 current = 0;
-                while(r < rows && tempC < cols)
+                while (r < rows && tempC < cols)
                 {
                     int check = CountCoin(board, r, tempC, winCdt);
                     if (check != -1)
@@ -227,7 +299,7 @@ namespace ConnectFour
             //and go to the left
             for (int r = rows - winCdt; r >= 0; r--)
             {
-                int c = cols-1;
+                int c = cols - 1;
                 int tempR = r;
                 count = 0;
                 current = 0;
@@ -242,10 +314,10 @@ namespace ConnectFour
                     tempR++;
                 }
             }
-            for (int c = cols - 2; c >= winCdt - 1; c--)
+            for (int c = cols - 1; c >= winCdt - 1; c--)
             {
                 int r = 0;
-                int tempC = 0;
+                int tempC = c;
                 count = 0;
                 current = 0;
                 while (r < rows && tempC >= 0)
@@ -261,17 +333,5 @@ namespace ConnectFour
             }
             return -1;
         }
-        public void PrintBoard()
-        {
-            for (int i = rows-1; i >= 0; i--)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    Console.Write(string.Format("{0} ", board[i, j]));
-                }
-                Console.Write(Environment.NewLine + Environment.NewLine);
-            }
-        }
-
     }
 }

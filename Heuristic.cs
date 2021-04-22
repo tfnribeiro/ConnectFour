@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace ConnectFour
 {
@@ -13,8 +13,20 @@ namespace ConnectFour
              * token in one of those spaces we give +2 for each token.
              * The algorithm will use the checks used in the code to check for winning player
              * in the class State.
+             * 28/03/2021 : Gave more value to points in the middle
              */
-            return CountRow(state, action) + CountCol(state, action);
+
+
+            int valueState = CountRow(state, action) + CountCol(state, action);
+            int middlePoint = (int)(state.GetCols() / 2);
+            if (state.GetLastPlacedRow() == 0)
+                valueState = +3;
+            else if (action == middlePoint)
+                valueState =+ 4;
+            else if (action == middlePoint + 1 ||
+                    action == middlePoint - 1)
+                valueState =+ 3;
+            return valueState;
 
         }
         private static int CountRow(State evState, int a)
@@ -23,14 +35,14 @@ namespace ConnectFour
             int advPlayer = evState.GetTurn(); // The current turn is of the opponent player, as the action was taken already
             int player = GetOtherPlayer(advPlayer);
             int row = evState.GetLastPlacedRow();
-            for(int c = Math.Max(0, a-3); c < Math.Min(a + 3, evState.GetCols()); c++)
+            for (int c = Math.Max(0, a - 3); c < Math.Min(a + 3, evState.GetCols()); c++)
             {
                 int token = evState.GetToken(row, c);
                 if (token == 0) combo++;
                 else if (token == advPlayer)
                 {
                     //We find a token which means we can't win, combo goes to 0; and we move to the other row in front.
-                    if(c >= a)
+                    if (c >= a)
                     {
                         return 0;
                     }
@@ -47,19 +59,19 @@ namespace ConnectFour
             int advPlayer = evState.GetTurn(); // The current turn is of the opponent player, as the action was taken already
             int player = GetOtherPlayer(advPlayer);
             int col = a;
-            for (int r = Math.Max(0, evState.GetLastPlacedRow() - 3); r < 
-               Math.Min(evState.GetLastPlacedRow() + 3, evState.GetRows()-1); r++)
+            for (int r = Math.Max(0, evState.GetLastPlacedRow() - 3); r <
+               Math.Min(evState.GetLastPlacedRow() + 3, evState.GetRows() - 1); r++)
             {
                 int token = evState.GetToken(r, col);
-                if (token == advPlayer)
+                if (token == 0) combo++;
+                else if (token == advPlayer)
                 {
-                    if(r >= evState.GetLastPlacedRow())
+                    if (r >= evState.GetLastPlacedRow())
                     { return 0; }
                     r = evState.GetLastPlacedRow();
                     combo = 0;
                 }
-                else if (token == player) combo += 3;
-                else combo++;
+                else combo+=3;
             }
             return combo;
         }
@@ -70,4 +82,3 @@ namespace ConnectFour
         }
     }
 }
-
