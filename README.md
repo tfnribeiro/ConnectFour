@@ -11,7 +11,7 @@ The main method is **CalculateNextMove** which will return the move with the hig
 
 The Depth in this case decrements as you go furthest away in the tree. If Depth = 8, 8 will be the shallowest node and 0 will be the deepest node.
 
-The Utility method will call determine how the AI values the current state of the board. If it sees a win, then it will give it 20 multiplied by the depth it is in. The lowest amount is 20 = 20 * (1 + 0) and the max is 20 * (1 + 8) = 180.
+The Utility method will call determine how the AI values the current state of the board. If it sees a win, then it will give it 20 multiplied by the depth it is in. The lowest amount is 20 * (1 + 0) = 20 and the max is 20 * (1 + 8) = 180.
 
 If there is no terminal state, then the Heuristic is used.
 
