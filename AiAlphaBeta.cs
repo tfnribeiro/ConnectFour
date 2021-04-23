@@ -158,9 +158,9 @@ namespace ConnectFour
             int gameEnd = state.GameIsFinished();
             if (gameEnd == 1 || gameEnd == 2 || gameEnd == 0)
             {
-                if (state.GetWinner() == playerID) { return 20 * depth; } //The Heuristic of when the state is winning returns a value that rewards a play that wins faster (depth is higher)
+                if (state.GetWinner() == playerID) { return 20 * (1 + depth); } //The Heuristic of when the state is winning returns a value that rewards a play that wins faster (depth is higher)
                 else if (state.GetWinner() == 0) { return 0; } //The Heuristic returns 0 if there is a draw
-                else { return -20 * depth; } //The Heuristic returns a lower value if it results in a loss faster 
+                else { return -20 * (1 + depth); } //The Heuristic returns a lower value if it results in a loss faster 
             }
             else
             {
